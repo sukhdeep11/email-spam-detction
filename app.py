@@ -1,35 +1,39 @@
-from flask import Flask, request, jsonify, render_template
-import pickle 
-import numpy as np   
+from flask import Flask, request, render_template
+import pickle
 
+tfid = pickle.load(open('models/vectorizer.pkl', 'rb'))
+model_MNB = pickle.load(open('models/model.pkl', 'rb'))
+print(tfid)
 
 app = Flask(__name__)
-model = pickle.load(open('nbclassifier.pkl', 'rb'))
-scaler = pickle.load(open('scaler.pickle', 'rb'))
+
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
-@app.route('/predict',methods=['POST'])
-def predict():
-    '''
-    For rendering results on HTML GUI
-    '''
-    int_features = [int(x) for x in request.form.values()]
-    pre_final_features = [np.array(int_features)]
-    final_features = scaler.transform(pre_final_features)
-    prediction = model.predict(final_features)    
-    if (prediction == 1):
-        output = "True"
-    elif(prediction == 0):
-        output = "False"
-    else:
-        output = "Not sure"
-        
 
-    return render_template('index.html', prediction='This user will click on social network ad  {}'.format(output))
+@app.route('/predict', methods=['POST'])
+def predict():
+    txt = request.form.get("data")
+    transformed_txt = [txt]
+
+    print(txt)
+    print(transformed_txt)
+    a = tfid.transform(transformed_txt)
+    result = model_MNB.predict(a)
+
+    print(result)
+    print(result[0])
+    type(result)
+
+    if result[0] == 1:
+        res = "It looks like a Spam Message"
+    else:
+        res = "It looks like Valid Message"
+
+    return render_template('index.html', prediction_text=res)
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

@@ -1,12 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="{{ url_for('static',filename='styles/design.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&display=swap" rel="stylesheet">
-    <title>Email Spam Detection</title>
-
-    <style>
-        .container{
+.container{
 background: #ffebe9;
 height: 100%;
 width: 100%;
@@ -63,7 +55,7 @@ margin: 10px;
     cursor: pointer;
 }
 
-input:focus {
+input:focus { 
   outline: none !important;
   border-color: #fae6e4;
   box-shadow: 0 0 10px #fae6e4;
@@ -75,7 +67,7 @@ input:focus {
   margin-left: -13%;
 }
 
-textarea:focus {
+textarea:focus { 
   outline: none !important;
   border-color: #fae6e4;
   box-shadow: 0 0 10px #fae6e4;
@@ -99,23 +91,3 @@ body {
   box-sizing: border-box;
   font-family: 'Noto Sans Mono', sans-serif;
 }
-    </style>
-
-
-</head>
-<body>
- <div class="container">
-
-    <div class="formDiv">
-        <img src="{{url_for('static', filename='man.svg')}}" alt="" class="man">
-        <h1 class="heading">Email Spam Detection</h1>
-        <form action="{{ url_for('predict')}}" method="post" class="form">
-             <p class="para">Enter your Here here</p>
-             <textarea class="textarea" name="data" spellcheck="false" rows="4" cols="70"></textarea>
-            <button type="submit" class="submit" >Predict</button>
-            <h4 class="para">{{ prediction_text }}</h4>
-        </form>
-    </div>
- </div>
-</body>
-</html>
